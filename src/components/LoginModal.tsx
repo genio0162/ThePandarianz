@@ -4,7 +4,6 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { RiCloseLine } from 'react-icons/ri'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useWallet } from '@solana/wallet-adapter-react'
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 
 interface LoginModalProps {
