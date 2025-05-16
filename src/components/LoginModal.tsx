@@ -14,7 +14,9 @@ interface LoginModalProps {
 
 const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
   const [email, setEmail] = useState('')
-  const { connected } = useWallet()
+//   const { connected } = useWallet()
+
+//   const isConnected = connected;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()

@@ -7,7 +7,6 @@ import Link from 'next/link'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 import { useWalletModal } from '@solana/wallet-adapter-react-ui'
-import { useTheme } from 'next-themes'
 
 const Navbar = () => {
   //const { theme, setTheme } = useTheme()
