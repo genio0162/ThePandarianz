@@ -43,8 +43,19 @@ export const GetTokens: FC = () => {
             }
             else{
                 const rows = accounts.map((account,i)=>{
+                    // With this (more specific type)
+interface ParsedAccountInfo {
+    parsed: {
+      info: {
+        mint: string;
+        tokenAmount: {
+          uiAmount: number;
+        };
+      };
+    };
+  }
                     // Parse the account data
-                    const parsedAccountInfo:any = account.account.data
+                    const parsedAccountInfo: ParsedAccountInfo = account.account.data as ParsedAccountInfo;
                     const mintAddress:string = parsedAccountInfo["parsed"]["info"]["mint"]
                     const tokenBalance: number = parsedAccountInfo["parsed"]["info"]["tokenAmount"]["uiAmount"]
                     return (
@@ -83,11 +94,12 @@ export const GetTokens: FC = () => {
         }
         try { 
             await getTokenAccounts(publicKey.toString())
-        } catch (error: any) {
-            notify({ type: 'error', message: `Couldn't Find Token Accounts!`, description: error?.message })
-            console.log('error', `Error finding Token Accounts! ${error?.message}`)
-            setIsLoading(false)
-        }
+        } catch (error: Error | unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+            notify({ type: 'error', message: `Couldn't Find Token Accounts!`, description: errorMessage });
+            console.log('error', `Error finding Token Accounts! ${errorMessage}`);
+            setIsLoading(false);
+          }
     }
 
     return (

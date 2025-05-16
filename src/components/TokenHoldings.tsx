@@ -5,6 +5,7 @@ import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { FC, useState, ReactElement } from 'react'
 import { GetProgramAccountsFilter } from '@solana/web3.js'
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token"
+import { notify } from "@/utils/notifications"
 import { motion } from 'framer-motion'
 
 const TokenHoldings: FC = () => {
@@ -43,8 +44,17 @@ const TokenHoldings: FC = () => {
             }
             else{
                 const rows = accounts.map((account,i)=>{
-                    // Parse the account data
-                    const parsedAccountInfo:any = account.account.data
+                    interface ParsedAccountInfo {
+                        parsed: {
+                          info: {
+                            mint: string;
+                            tokenAmount: {
+                              uiAmount: number;
+                            };
+                          };
+                        };
+                      }
+                      const parsedAccountInfo: ParsedAccountInfo = account.account.data as ParsedAccountInfo;
                     const mintAddress:string = parsedAccountInfo["parsed"]["info"]["mint"]
                     const tokenBalance: number = parsedAccountInfo["parsed"]["info"]["tokenAmount"]["uiAmount"]
                     return (
@@ -82,10 +92,12 @@ const TokenHoldings: FC = () => {
         }
         try { 
             await getTokenAccounts(publicKey.toString())
-        } catch (error: any) {
-            console.log('error', `Error finding Token Accounts! ${error?.message}`)
-            setIsLoading(false)
-        }
+        } catch (error: Error | unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+            notify({ type: 'error', message: `Couldn't Find Token Accounts!`, description: errorMessage });
+            console.log('error', `Error finding Token Accounts! ${errorMessage}`);
+            setIsLoading(false);
+          }
     }
 
     return (

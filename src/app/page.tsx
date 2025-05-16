@@ -14,7 +14,7 @@ export default function Home() {
       {/* What's New Section */}
       <div className="px-4 mt-10 md:mt-16">
         <div className="flex justify-between items-center mb-8">
-          <h2 className="text-3xl md:text-4xl font-bold">What's New?</h2>
+          <h2 className="text-3xl md:text-4xl font-bold">What&apos;s New?</h2>
           <a href="/more" className="text-sm font-medium hover:underline">More</a>
         </div>
         <FeaturedSection />
