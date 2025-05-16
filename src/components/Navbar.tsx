@@ -10,7 +10,7 @@ import { useWalletModal } from '@solana/wallet-adapter-react-ui'
 import { useTheme } from 'next-themes'
 
 const Navbar = () => {
-  const { theme, setTheme } = useTheme()
+  //const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const { connected } = useWallet()
   const { setVisible } = useWalletModal()

@@ -3,7 +3,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { RiHome5Line, RiStore2Line, RiTvLine, RiMoreLine } from 'react-icons/ri'
+import { RiHome5Line, RiStore2Line, RiMoreLine } from 'react-icons/ri'
 
 const Sidebar = () => {
   const pathname = usePathname()

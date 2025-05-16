@@ -34,15 +34,15 @@ const slides = [
 
 const HeroSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [autoplay, setAutoplay] = useState(true)
+  const [autoplay] = useState(true);
 
   const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % slides.length)
   }, [])
 
-  const prevSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
-  }, [])
+//   const prevSlide = useCallback(() => {
+//     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
+//   }, [])
 
   useEffect(() => {
     if (!autoplay) return
