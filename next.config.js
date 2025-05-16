@@ -2,8 +2,7 @@
 const nextConfig = {
     reactStrictMode: true,
     transpilePackages: ['@solana/wallet-adapter-react-ui'],
-    // Use Node.js 16 compatible settings
-    swcMinify: false,
+    // swcMinify option removed as it's no longer supported
     images: {
       domains: ['localhost'],
     },
