@@ -1,0 +1,36 @@
+/* File: src/app/fonts.css */
+@font-face {
+    font-family: 'BambooPanda';
+    src: url('../../public/fonts/skud-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  /* Bamboo symbols - add these to use as special characters */
+  .bamboo-symbol::before {
+    content: '🎋';
+    margin-right: 0.25rem;
+  }
+  
+  .bamboo-bullet::before {
+    content: '🎍';
+    margin-right: 0.5rem;
+  }
+  
+  /* For navigation icons */
+  .panda-icon {
+    position: relative;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+  }
+  
+  .panda-icon::before {
+    content: '🐼';
+    font-size: 1.2rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }

@@ -1,26 +1,559 @@
-@import "tailwindcss";
+@import './fonts.css';
+/* Import Solana Wallet Adapter styles */
+@import '@solana/wallet-adapter-react-ui/styles.css';
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== THEME VARIABLES ===== */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Base colors */
+  --foreground: 255, 255, 255; /* White text by default */
+  --background: 0, 0, 0; /* Black background by default */
+  
+  /* Card and component colors */
+  --card-bg: transparent;
+  --card-border: 55, 65, 81;
+  
+  /* Brand colors */
+  --bamboo-green: 121, 170, 80;
+  --bamboo-light: 205, 232, 185;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Light mode overrides */
+.light {
+  --foreground: 0, 0, 0; /* Black text in light mode */
+  --background: 255, 255, 255; /* White background in light mode */
+  --card-border: 229, 231, 235;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Core body styles */
+body {
+  color: rgb(var(--foreground));
+  background-color: rgb(var(--background));
+  font-family: 'BambooPanda', sans-serif;
+  min-height: 100vh;
+}
+
+/* ===== LAYOUT STRUCTURE ===== */
+
+/* Main content spacing */
+main {
+  padding-top: 5rem; /* Space for fixed navbar */
+  padding-bottom: 3rem; /* Space at the bottom */
+}
+
+@media (min-width: 768px) {
+  main {
+    margin-left: 160px; /* Space for sidebar */
+  }
+  
+  footer {
+    padding-left: 160px; /* Match sidebar width */
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Content containers */
+.content-container {
+  padding: 0 1rem;
+}
+
+/* Section spacing */
+.section-container {
+  margin-bottom: 2.5rem;
+}
+
+/* Section headings */
+.section-heading {
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+/* ===== COMPONENT STYLES ===== */
+
+/* Card styles - transparent backgrounds */
+.feature-card, 
+.pack-card, 
+.shorts-card,
+.community-card {
+  border-radius: 1.5rem;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover, 
+.pack-card:hover, 
+.shorts-card:hover,
+.community-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Hero section */
+.hero-container {
+  margin: 1rem;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Gradient overlays */
+.hero-gradient {
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%);
+}
+
+.card-gradient {
+  background: linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.8) 100%);
+}
+
+/* Navigation dots */
+.dot-nav {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.5);
+  transition: all 0.3s;
+}
+
+.dot-nav.active {
+  width: 0.75rem;
+  height: 0.75rem;
+  background-color: white;
+}
+
+/* ===== SIDEBAR STYLES ===== */
+
+/* Sidebar links */
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  color: rgb(var(--foreground));
+  transition: background-color 0.2s;
+}
+
+.sidebar-link:hover, 
+.sidebar-link.active {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ===== BUTTON STYLES ===== */
+
+/* Standard button */
+.primary-btn {
+  padding: 0.75rem 1.5rem;
+  background-color: white;
+  color: black;
+  font-weight: 700;
+  border-radius: 9999px;
+  transition: all 0.3s;
+}
+
+.light .primary-btn {
+  background-color: black;
+  color: white;
+}
+
+.primary-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Secondary button */
+.secondary-btn {
+  padding: 0.75rem 1.5rem;
+  background-color: transparent;
+  border: 2px solid rgb(var(--foreground));
+  color: rgb(var(--foreground));
+  font-weight: 700;
+  border-radius: 9999px;
+  transition: all 0.3s;
+}
+
+.secondary-btn:hover {
+  background-color: rgb(var(--foreground));
+  color: rgb(var(--background));
+}
+
+/* Gradient button */
+.gradient-btn {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(to right, #9945FF, #14F195);
+  color: white;
+  font-weight: 700;
+  border-radius: 9999px;
+  transition: all 0.3s;
+}
+
+.gradient-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Bamboo-themed button */
+.bamboo-btn {
+  padding: 0.75rem 1.5rem;
+  background-color: white;
+  color: black;
+  font-weight: 700;
+  border-radius: 9999px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.bamboo-btn::before {
+  content: '';
+  position: absolute;
+  left: -2px;
+  top: -2px;
+  background: linear-gradient(90deg, rgb(var(--bamboo-green)), transparent);
+  width: 100%;
+  height: 100%;
+  transform: translateX(-100%);
+  transition: transform 0.4s;
+  z-index: -1;
+}
+
+.bamboo-btn:hover::before {
+  transform: translateX(0);
+}
+
+/* ===== ANIMATION STYLES ===== */
+
+/* Slide up animation */
+.slide-up {
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Float animation */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Image hover scale */
+.hover-scale {
+  transition: transform 0.3s;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+/* ===== UTILITY STYLES ===== */
+
+/* Bamboo-themed utilities */
+.bamboo-border {
+  border: 2px solid rgb(var(--bamboo-green));
+  border-radius: 1rem;
+  box-shadow: 0 0 15px rgba(var(--bamboo-green), 0.3);
+}
+
+.bamboo-gradient {
+  background: linear-gradient(135deg, rgb(var(--bamboo-green)), rgb(var(--bamboo-light)));
+}
+
+.bamboo-text {
+  color: rgb(var(--bamboo-green));
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(var(--foreground), 0.3);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--foreground), 0.5);
+}
+
+/* ===== WALLET ADAPTER STYLING ===== */
+
+/* General wallet button styling */
+.wallet-adapter-button {
+  border-radius: 9999px !important;
+  font-weight: 700 !important;
+  background-color: white !important;
+  color: black !important;
+  transition: all 0.3s !important;
+  height: auto !important;
+  line-height: normal !important;
+  padding: 0.75rem 1.5rem !important;
+}
+
+.light .wallet-adapter-button {
+  background-color: black !important;
+  color: white !important;
+}
+
+.wallet-adapter-button:hover {
+  opacity: 0.9 !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Main wallet button in navbar */
+.wallet-adapter-button.wallet-adapter-button-trigger {
+  font-family: 'BambooPanda', sans-serif !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Button text */
+.wallet-adapter-button-trigger > span {
+  text-align: center !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* Modal styling */
+.wallet-adapter-modal {
+  font-family: 'BambooPanda', sans-serif !important;
+}
+
+.wallet-adapter-modal-wrapper {
+  background-color: #111827 !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6) !important;
+  border-radius: 20px !important;
+}
+
+.wallet-adapter-modal-title {
+  font-family: 'BambooPanda', sans-serif !important;
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 2rem !important;
+  margin-top: 1.5rem !important;
+}
+
+/* Wallet list */
+.wallet-adapter-modal-list {
+  margin: 0 auto !important;
+  padding: 0 !important;
+  width: 100% !important;
+}
+
+/* Wallet list items */
+.wallet-adapter-modal-list .wallet-adapter-button {
+  margin: 0 0 1rem 0 !important;
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  padding: 0.75rem 1.25rem !important;
+  border-radius: 100px !important;
+  background-color: #1F2937 !important;
+  color: white !important;
+}
+
+.wallet-adapter-modal-list .wallet-adapter-button:hover {
+  background-color: #374151 !important;
+}
+
+/* Wallet icons */
+.wallet-adapter-button-start-icon {
+  margin-right: 0.75rem !important;
+}
+
+/* More options button */
+.wallet-adapter-modal-list-more {
+  margin-top: 1rem !important;
+  font-family: 'BambooPanda', sans-serif !important;
+  cursor: pointer !important;
+  color: white !important;
+  font-size: 0.875rem !important;
+}
+
+/* Close button */
+.wallet-adapter-modal-button-close {
+  background-color: transparent !important;
+}
+
+/* Dropdown menu */
+.wallet-adapter-dropdown {
+  display: inline-block !important;
+}
+
+.wallet-adapter-dropdown-list {
+  background: #111827 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6) !important;
+  padding: 8px !important;
+}
+
+.wallet-adapter-dropdown-list-item {
+  padding: 8px 16px !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  font-family: 'BambooPanda', sans-serif !important;
+  color: white !important;
+}
+
+.wallet-adapter-dropdown-list-item:hover {
+  background-color: #1F2937 !important;
+}
+
+/* ===== MOBILE SPECIFIC STYLES ===== */
+@media (max-width: 640px) {
+  /* Modal size */
+  .wallet-adapter-modal-wrapper {
+    max-width: 90% !important;
+  }
+  
+  /* Modal title */
+  .wallet-adapter-modal-title {
+    font-size: 1.25rem !important;
+  }
+  
+  /* Mobile wallet button */
+  .wallet-adapter-button.wallet-adapter-button-trigger {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.875rem !important;
+    min-width: 100px !important;
+    height: 36px !important;
+  }
+  
+  /* Mobile button text */
+  .wallet-adapter-button-trigger span {
+    font-size: 0.875rem !important;
+    max-width: 90px !important;
+  }
+  
+  /* Custom mobile button */
+  .custom-mobile-wallet-btn {
+    padding: 0.5rem 1rem !important;
+    background-color: white !important;
+    color: black !important;
+    border-radius: 9999px !important;
+    font-weight: bold !important;
+    font-size: 0.875rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  
+  /* Mobile section spacing */
+  .section-container {
+    margin-bottom: 2rem;
+  }
+  
+  /* Mobile headings */
+  .section-heading {
+    font-size: 1.5rem;
+  }
+  
+  /* Mobile hero container */
+  .hero-container {
+    margin: 0.5rem;
+    height: 400px !important;
+  }
+}
+
+/* ===== CONTENT SECTION STYLES ===== */
+
+/* Featured items grid */
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .featured-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .featured-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Card backgrounds - Match Doodles style */
+.bg-card-dark {
+  background-color: #1c1c1c;
+}
+
+.bg-card-purple {
+  background-color: #7c3aed;
+}
+
+.bg-card-pink {
+  background-color: #ec4899;
+}
+
+.bg-card-yellow {
+  background-color: #f59e0b;
+}
+
+.bg-card-green {
+  background-color: #10b981;
+}
+
+/* Shorts and community grids */
+.shorts-grid, .community-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .shorts-grid, .community-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .shorts-grid, .community-grid {
+    grid-template-columns: repeat(9, 1fr);
+  }
+}
+
+/* Token holdings section */
+.token-holdings-container {
+  border-radius: 1.5rem;
+  background-color: rgba(31, 41, 55, 0.4);
+  backdrop-filter: blur(8px);
+  padding: 2rem;
+  margin-top: 2rem;
+}
+
+.custom-mobile-wallet-btn {
+  max-width: none !important;
+  min-width: fit-content !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  margin-right: 59px !important;
 }
